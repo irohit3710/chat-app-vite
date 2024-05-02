@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat App Instruction</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      color: #555;
+    }
+
+    .features {
+      text-align: left;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    .agree-button, .continue-button {
+      background-color: #ff8c00;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+    }
+
+    .agree-button:hover, .continue-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to our Chat App</h1>
+    <p>Before you start, please read the following features of our chat app:</p>
+    
+    <div class="features">
+      <ul>
+        <li>Real-time messaging</li>
+        <li>Group chat support</li>
+        <li>Emoji and file sharing</li>
+        <li>Notification settings</li>
+      </ul>
+    </div>
+
+    <div class="button-container">
+      <button class="agree-button" onclick="handleAgree()">Agree</button>
+      <button class="continue-button" onclick="handleContinue()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    function handleAgree() {
+      alert("You have agreed to the terms!");
+      // Perform any additional actions upon agreement
+    }
+
+    function handleContinue() {
+      alert("Continuing to the chat app!");
+      // Redirect or perform actions to navigate to the chat app
+    }
+  </script>
+</body>
+</html>

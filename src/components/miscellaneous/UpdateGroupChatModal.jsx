@@ -1,31 +1,19 @@
 import { ViewIcon } from "@chakra-ui/icons";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-  FormControl,
-  Input,
-  useToast,
-  Box,
-  IconButton,
-  Spinner,
-  Badge,
-} from "@chakra-ui/react";
+import {Modal,ModalOverlay,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,Button,useDisclosure,FormControl,Input,useToast,Box,IconButton,Spinner,Badge, Text} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider.jsx";
 import UserBadgeItem from "../userAvatar/UserBadgeItem.jsx";
 import UserListItem from "../userAvatar/UserListItem.jsx";
 import { BASE_URL } from '../../Context/helper.jsx'
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { RiAdminFill } from "react-icons/ri";
+import { IoMdSettings } from "react-icons/io";
+import UserListModal from "./UserListModal.jsx";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openListModal,setOpenListModal] = useState(false);
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -224,7 +212,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
           <ModalCloseButton />
           <ModalBody d="flex" flexDir="column" alignItems="center">
-            <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
+            {/* <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
               Group Admin :
               {selectedChat.users.map((u) => (
                 (!u.isAdmin==true) && <Badge display='flex' flexDirection='row' alignItems='center' justifyItems='center' marginLeft={2} backgroundColor='whatsapp.500' color='white'>{u.email}</Badge>
@@ -239,6 +227,20 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                   handleFunction={() => handleRemove(u)}
                 />
               ))}
+            </Box> */}
+            <Box w='100%' d='flex' flexDir='row' alignItems='center' justifyContent='space-between' marginBottom='2'>
+              <Box d='flex' flexDir='column' alignItems='center'>
+                <Button backgroundColor='green.400' onClick={()=>{setOpenListModal(true)}} _hover={{backgroundColor:'green.500'}}><RiAdminFill /></Button>
+                <Text style={{ fontSize: '12px' }}>Admins</Text>
+              </Box>
+              <Box d='flex' flexDir='column' alignItems='center'>
+                <Button backgroundColor='green.400' _hover={{backgroundColor:'green.500'}}><HiMiniUserGroup /></Button>
+                <p style={{ fontSize: '12px' }}>Users</p>
+              </Box>
+              <Box d='flex' flexDir='column' alignItems='center'>
+                <Button backgroundColor='green.400' _hover={{backgroundColor:'green.500'}}><IoMdSettings /></Button>
+                <p style={{ fontSize: '12px' }}>Setting</p>
+              </Box>
             </Box>
             <FormControl d="flex">
               <Input
@@ -286,6 +288,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <UserListModal
+      setOpenListModal={setOpenListModal}
+      openListModal={openListModal}
+      />
     </>
   );
 };

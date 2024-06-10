@@ -12,7 +12,7 @@ import ScrollableChat from "./ScrollableChat.jsx";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 import {BASE_URL} from '../Context/helper.jsx'
-
+import Filter from 'bad-words'
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal.jsx";
 import { ChatState } from "../Context/ChatProvider.jsx";
@@ -28,6 +28,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+  let filter  = new Filter({ placeHolder: '*'});
 
   const defaultOptions = {
     loop: true,
@@ -82,15 +84,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        setNewMessage("");
+        
         const { data } = await axios.post(
           `${BASE_URL}/api/message`,
           {
-            content: newMessage,
+            content: filter.clean(newMessage),
             chatId: selectedChat,
           },
           config
         );
+        setNewMessage("");
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -175,7 +178,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             alignItems="center"
           >
             <IconButton
-              d={{ base: "flex", md: "none" }}
+              d={{ base: "flex" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />

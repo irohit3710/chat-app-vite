@@ -7,7 +7,7 @@ import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, } from 
 import { Tooltip } from "@chakra-ui/tooltip";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
@@ -20,31 +20,31 @@ import { getSender } from "../../config/ChatLogics.jsx";
 import UserListItem from "../userAvatar/UserListItem.jsx";
 import { ChatState } from "../../Context/ChatProvider.jsx";
 import { Diversity2 } from "@mui/icons-material";
+import { HiUserGroup } from "react-icons/hi2";
+import { FaPlusSquare } from "react-icons/fa";
+import { MdFiberNew } from "react-icons/md";
+import { GrAddCircle } from "react-icons/gr";
 import { BASE_URL } from '../../Context/helper.jsx'
+import JoinMeetingModal from "../Modal/JoinMeetingModal.jsx";
+import { generateMeetingId } from "../Helper/custome.helper.js";
+import PushNotification from "../PushNotification/PushNotification.jsx";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
+  const [meetingModal, setMeetingModal] = useState(false);
+  const [joinMeetingId, setJoinMeetingId] = useState(undefined);
 
-  const {
-    setSelectedChat,
-    user,
-    notification,
-    setNotification,
-    chats,
-    setChats,
-  } = ChatState();
+  const { setSelectedChat, user, notification, setNotification, chats, setChats } = ChatState();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const history = useHistory();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
-    // history.push("/");
     navigate('/');
   };
 
@@ -85,9 +85,9 @@ function SideDrawer() {
     }
   };
 
-  const accessChat = async (userId,userPrivacy) => {
+  const accessChat = async (userId, userPrivacy) => {
     // console.log(userId, ' & ',userPrivacy)
-    if(userPrivacy){
+    if (userPrivacy) {
       toast({
         title: "User profile is private",
         status: "info",
@@ -124,6 +124,20 @@ function SideDrawer() {
     }
   };
 
+
+  const createNewMeetingHandler = () => {
+    const meetingId = generateMeetingId();
+    navigate(`/ne/meeting/${meetingId}`);
+  }
+
+  const joinMeetingHandler = () => {
+    if (joinMeetingId.length < 1) {
+      return;
+    }
+    navigate(`/ex/meeting/${joinMeetingId}`);
+  }
+
+
   return (
     <>
       <Box
@@ -139,21 +153,36 @@ function SideDrawer() {
         marginBottom='5px'
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant="ghost" onClick={onOpen} className='my-third-step'>
             <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          ChitChatWeb
-        </Text>
-        <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-          <Button bg='transparent'><Diversity2 fontSize="medium"/></Button>
-          <Menu>
+        <Box bg='gray.200' paddingX='12px' borderRadius='6px'>
+          <Text fontSize="2xl" fontFamily="Work sans" fontWeight='bold' bgGradient="linear(to-r, red, orange)" bgClip="text" >
+            ChitChatWeb
+          </Text>
+        </Box>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <Box marginRight='5px'>
+            <Menu bg='orange.300' border>
+              <MenuButton as={Button} bg="orange.300" rightIcon={<HiUserGroup />}>
+                {/* <HiUserGroup/> */}
+                <Text>Meeting</Text>
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => { createNewMeetingHandler() }}> <MdFiberNew size={20} style={{ marginRight: '4px' }} color="blue" /> New Meeting</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={() => { setMeetingModal(true) }}><GrAddCircle size={20} style={{ marginRight: '4px' }} color="green" /> Join Existing</MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+          <Button bg='transparent' className='my-seventh-step'><Diversity2 fontSize="medium" /></Button>
+          <Menu className='my-fifth-step'>
             {/* <MenuList> */}
-              {/* <MenuItem>
+            {/* <MenuItem>
                 <MenuButton>
                   <Diversity2 fontSize="medium" mt={1} />
                 </MenuButton>
@@ -224,7 +253,7 @@ function SideDrawer() {
                 <UserListItem
                   key={user._id}
                   user={user}
-                  handleFunction={() => accessChat(user._id,user.private)}
+                  handleFunction={() => accessChat(user._id, user.private)}
                 />
               ))
             )}
@@ -232,6 +261,12 @@ function SideDrawer() {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
+      <JoinMeetingModal
+        meetingModal={meetingModal}
+        setMeetingModal={setMeetingModal}
+        setJoinMeetingId={setJoinMeetingId}
+        joinMeetingHandler={joinMeetingHandler}
+      />
     </>
   );
 }

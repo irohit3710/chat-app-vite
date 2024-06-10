@@ -40,6 +40,17 @@ const GroupChatModal = ({ children }) => {
   }
 
   const handleGroup = (userToAdd) => {
+    console.log('user to add : ',userToAdd);
+    if(userToAdd.private==true){
+      toast({
+        title: "User profile is private",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
     if (selectedUsers.includes(userToAdd)) {
       toast({
         title: "User already added",

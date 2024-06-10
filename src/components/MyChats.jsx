@@ -74,6 +74,7 @@ const MyChats = ({ fetchAgain }) => {
             bg="orange.200"
             w={{ base: "100%", md: "31%" }}
             borderRadius="lg"
+            className='my-first-step'
         // borderWidth="1px"
         >
             <Box
@@ -92,6 +93,7 @@ const MyChats = ({ fetchAgain }) => {
                         d="flex"
                         fontSize={{ base: "17px", md: "10px", lg: "17px" }}
                         rightIcon={<AddIcon />}
+                        className = 'my-fourth-step'
                     >
                         New Group Chat
                     </Button>
@@ -126,6 +128,7 @@ const MyChats = ({ fetchAgain }) => {
                                     flexDirection='row'
                                     alignItems='center'
                                     justifyContent='space-between'
+                                    className = 'my-second-step'
                                 >
                                     <Box onClick={() => setSelectedChat(chat)} flex='0.9'>
                                         <Text>
@@ -144,7 +147,7 @@ const MyChats = ({ fetchAgain }) => {
                                     </Box>
                                     <div>
                                         <Menu>
-                                            <MenuButton p={1}>
+                                            <MenuButton p={1} className='my-eighth-step'>
                                                 <MoreVertIcon fontSize="medium" m={1} />
                                             </MenuButton>
                                             <MenuList p={2} className="d-flex flex-column gap-2">
@@ -153,7 +156,7 @@ const MyChats = ({ fetchAgain }) => {
                                             </MenuList>
                                         </Menu>
                                     </div>
-                                    <Box flex='0.1' onClick={() => { handleProfileModelClick(chat) }}>
+                                    <Box flex='0.1' onClick={() => { handleProfileModelClick(chat) }} className="my-sixth-step">
                                         <ProfileModal UserData={userToShow}>
                                             <Avatar border='2px solid green' size='md' />
                                         </ProfileModal>

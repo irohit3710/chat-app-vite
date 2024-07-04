@@ -167,7 +167,7 @@ function SideDrawer() {
         </Tooltip>
         <Box paddingX='12px' borderRadius='6px'>
           <Text fontSize="2xl"  fontWeight='bold' color={themeValue?'white':"blue.800"}>
-            <span>Connect</span>ify
+            <span>ChitChatWeb</span>
           </Text>
         </Box>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>

@@ -180,7 +180,7 @@ const Login = () => {
             >
                 Generate Random Password
             </Button> */}
-            <GoogleLogin
+            {/* <GoogleLogin
                 
                 text="signin_with"
                 shape="pill"
@@ -190,7 +190,7 @@ const Login = () => {
                 use_fedcm_for_prompt
                 onSuccess={onSuccess}
                 onError={onError}
-            />;
+            />; */}
             
 
         </VStack>

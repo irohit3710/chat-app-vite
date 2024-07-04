@@ -1,5 +1,5 @@
 // export const BASE_URL = 'https://chitchatbackend-6cjq.onrender.com' 
-export const BASE_URL = 'http://localhost:8000'
+export const BASE_URL = 'http://localhost:8000/api/v1'
 
 export const randomPassword = () => {
     const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

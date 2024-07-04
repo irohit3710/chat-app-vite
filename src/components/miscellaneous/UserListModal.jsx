@@ -21,7 +21,7 @@ const UserListModal = ({ openListModal, setOpenListModal }) => {
                         <hr style={{ width: '100%' }} />
                         <Box d='flex' flexDir='row' alignItems="center" padding='4px' justifyContent='space-between' w='100%'>
                             <Box d='flex' flexDir='row' gap='1' alignItems='center'> 
-                                <h5>User name</h5>
+                                <h5>User name <span style={{color:'gray'}}>(email)</span></h5>
                                 {/* <Badge backgroundColor='blue.400' color='white'>Admin</Badge>
                                 <Badge backgroundColor='green.400' color='white'>Supervisor</Badge> */}
                             </Box>

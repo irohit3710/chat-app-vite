@@ -10,6 +10,7 @@ const ChatProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState();
   const [authenticated,setAuthenticated] = useState(false);
+  const [themeValue, setThemeValue] = useState(true);
 
   // const history = useHistory();
   const navigate = useNavigate();
@@ -38,6 +39,8 @@ const ChatProvider = ({ children }) => {
         chats,
         setChats,
         authenticated,
+        themeValue,
+        setThemeValue,
       }}
     >
       {children}

@@ -102,7 +102,7 @@ const Signup = () => {
                 },
             };
             const { data } = await axios.post(
-                `${BASE_URL}/api/user`,
+                `${BASE_URL}/user`,
                 {
                     name,
                     email,

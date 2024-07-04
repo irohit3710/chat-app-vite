@@ -11,14 +11,16 @@ import { ChatState } from "../Context/ChatProvider.jsx";
 import { BASE_URL } from '../Context/helper.jsx'
 import ProfileModal from "./miscellaneous/ProfileModal.jsx";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { io } from "socket.io-client";
+import io from "socket.io-client";
+
+const ENDPOINT = 'http://localhost:8000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+var socket, selectedChatCompare;
 
 const MyChats = ({ fetchAgain }) => {
     const [loggedUser, setLoggedUser] = useState();
-    const [showDropDown, setShowDropDown] = useState(false);
     const [userToShow, setUserToShow] = useState();
-    const [chatToShow, setChatToShow] = useState();
-    const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+    const [chatBg, setChatBg] = useState('orange.200');
+    const { selectedChat, setSelectedChat, user, chats, setChats, themeValue } = ChatState();
     const toast = useToast();
 
     const fetchChats = async () => {
@@ -30,9 +32,10 @@ const MyChats = ({ fetchAgain }) => {
                 },
             };
 
-            const { data } = await axios.get(`${BASE_URL}/api/chat`, config);
+            const { data } = await axios.get(`${BASE_URL}/chat`, config);
             setChats(data);
         } catch (error) {
+            console.log(error);
             toast({
                 title: "Error Occured!",
                 description: "Failed to Load the chats",
@@ -64,6 +67,42 @@ const MyChats = ({ fetchAgain }) => {
     }, [fetchAgain]);
 
 
+    const checkOnlineUsers = () => {
+        console.log('check1')
+        socket = io(ENDPOINT);
+        // socket.emit('online-users', 122433366);
+        socket.on('user-status', (users) => {
+            console.log("users : ", users);
+        })
+
+        socket.on('checkuseronline', (users) => {
+            console.log("users : ", users);
+        })
+        console.log('check2')
+    }
+
+
+    const getSelectChatBg = ({chat})=>{
+        console.log(selectedChat,' & ',chat);
+        if(themeValue){
+            if(selectedChat===chat){
+                return 'green.200';
+            }
+            else{
+                return 'gray.700';
+            }
+        }
+        else{
+            if(selectedChat===chat){
+                return 'orange.400';
+            }
+            else{
+                return 'orange.200';
+            }
+        }
+    }
+
+
 
     return (
         <Box
@@ -71,7 +110,7 @@ const MyChats = ({ fetchAgain }) => {
             flexDir="column"
             alignItems="center"
             p={3}
-            bg="orange.200"
+            bg={themeValue ? 'gray.700' : "orange.200"}
             w={{ base: "100%", md: "31%" }}
             borderRadius="lg"
             className='my-first-step'
@@ -87,13 +126,16 @@ const MyChats = ({ fetchAgain }) => {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                My Chats
+                <Text color={themeValue ? 'white' : "black"}>
+                    My Chats
+                </Text>
                 <GroupChatModal>
                     <Button
                         d="flex"
                         fontSize={{ base: "17px", md: "10px", lg: "17px" }}
                         rightIcon={<AddIcon />}
-                        className = 'my-fourth-step'
+                        className='my-fourth-step'
+                        onClick={() => { checkOnlineUsers() }}
                     >
                         New Group Chat
                     </Button>
@@ -104,7 +146,7 @@ const MyChats = ({ fetchAgain }) => {
                 flexDir="column"
                 p={3}
                 // bg="#F8F8F8"
-                bg='orange.100'
+                bg={themeValue ? 'gray.600' : "orange.100"}
                 w="100%"
                 h="100%"
                 borderRadius="lg"
@@ -115,11 +157,28 @@ const MyChats = ({ fetchAgain }) => {
                         {chats.map((chat) => (
                             <>
                                 <Box
-                                    // onClick={() => setSelectedChat(chat)}
                                     cursor="pointer"
-                                    // bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                                    bg={selectedChat === chat ? "orange.400" : "orange.200"}
-                                    color={selectedChat === chat ? "white" : "black"}
+                                    // bg={selectedChat === chat ? "orange.400" : "orange.200"}
+                                    bg={
+                                        themeValue
+                                            ? selectedChat === chat
+                                                ? 'green.200'
+                                                : 'gray.700'
+                                            : selectedChat === chat
+                                                ? 'orange.400'
+                                                : 'orange.200'
+                                    }
+                                    color={
+                                        themeValue
+                                            ? selectedChat === chat
+                                                ? 'black'
+                                                : 'white'
+                                            : selectedChat === chat
+                                                ? 'white'
+                                                : 'black'
+                                    }
+                                    // color={selectedChat === chat ? "white" : "black"}
+                                    // color={themeValue ? 'white' : 'black'}
                                     px={3}
                                     py={2}
                                     borderRadius="lg"
@@ -128,7 +187,7 @@ const MyChats = ({ fetchAgain }) => {
                                     flexDirection='row'
                                     alignItems='center'
                                     justifyContent='space-between'
-                                    className = 'my-second-step'
+                                    className='my-second-step'
                                 >
                                     <Box onClick={() => setSelectedChat(chat)} flex='0.9'>
                                         <Text>
@@ -151,8 +210,8 @@ const MyChats = ({ fetchAgain }) => {
                                                 <MoreVertIcon fontSize="medium" m={1} />
                                             </MenuButton>
                                             <MenuList p={2} className="d-flex flex-column gap-2">
-                                                <Button bg='blue.300' _hover={{ backgroundColor: 'orange', color: 'white', transition: 'all 200ms ease' }}>Profile</Button>
-                                                <Button bg='blue.300' _hover={{ backgroundColor: 'orange', color: 'white', transition: 'all 200ms ease' }}>Send Request</Button>
+                                                <Button bg={themeValue ? 'blue.800':'blue.200'} _hover={{ backgroundColor: themeValue ? "blue.900":'orange', color: themeValue ? 'white':'black', transition: 'all 200ms ease' }}>Profile</Button>
+                                                <Button bg={themeValue ? 'blue.800':'blue.200'} _hover={{ backgroundColor: themeValue ? "blue.900":'orange', color: themeValue ? 'white':'black', transition: 'all 200ms ease' }}>Send Request</Button>
                                             </MenuList>
                                         </Menu>
                                     </div>

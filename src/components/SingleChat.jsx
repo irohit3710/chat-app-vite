@@ -11,7 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal.jsx";
 import ScrollableChat from "./ScrollableChat.jsx";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-import {BASE_URL} from '../Context/helper.jsx'
+import { BASE_URL } from '../Context/helper.jsx'
 import Filter from 'bad-words'
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal.jsx";
@@ -29,7 +29,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-  let filter  = new Filter({ placeHolder: '*'});
+  let filter = new Filter({ placeHolder: '*' });
 
   const defaultOptions = {
     loop: true,
@@ -39,7 +39,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+  const { selectedChat, setSelectedChat, user, notification, setNotification, themeValue } =
     ChatState();
 
   const fetchMessages = async () => {
@@ -55,7 +55,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `${BASE_URL}/api/message/${selectedChat._id}`,
+        `${BASE_URL}/message/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -84,9 +84,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        
+
         const { data } = await axios.post(
-          `${BASE_URL}/api/message`,
+          `${BASE_URL}/message`,
           {
             content: filter.clean(newMessage),
             chatId: selectedChat,
@@ -128,6 +128,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
+      console.log('here also : ', newMessageRecieved)
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -181,18 +182,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               d={{ base: "flex" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
+            // color={themeValue ? 'white' : 'black'}
+
             />
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  {getSender(user, selectedChat.users)}
+                  <Text color={themeValue ? 'white' : 'black'}>
+                    {getSender(user, selectedChat.users)}
+                  </Text>
                   <ProfileModal
                     UserData={getSenderFull(user, selectedChat.users)}
                   />
                 </>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  <Text color={themeValue ? 'white' : 'black'}>
+                    {selectedChat.chatName.toUpperCase()}
+                  </Text>
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
@@ -207,7 +214,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             justifyContent="flex-end"
             p={3}
             // bg="#E8E8E8"
-            bg='orange.100'
+            // bg='orange.100'
+            bg={themeValue ? 'gray.600':'orange.100'}
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -247,8 +255,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
               <Input
                 variant="filled"
-                bg="#E0E0E0"
+                // bg="#E0E0E0"
+                bg={themeValue ? "gray.500":'white'}
+                _hover={{bg:themeValue?"gray.500":'white'}}
+                _focus={{bg:themeValue?"gray.500":'white'}}
                 placeholder="Enter a message.."
+                color={themeValue ? 'white':'black'}
                 value={newMessage}
                 onChange={typingHandler}
               />
@@ -258,7 +270,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       ) : (
         // to get socket.io on same page
         <Box d="flex" alignItems="center" justifyContent="center" h="100%">
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+          <Text fontSize="3xl" pb={3} fontFamily="Work sans" color={themeValue?'white':'dark'}>
             Click on a user to start chatting
           </Text>
         </Box>

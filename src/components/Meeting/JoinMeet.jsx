@@ -16,7 +16,6 @@ const JoinMeet = () => {
 	const navigate = useNavigate();
 
     const meetingRoomId = useParams();
-    console.log('join meeting : ',meetingRoomId.meetingId);
 
 	const { user } = ChatState();
 
@@ -29,7 +28,7 @@ const JoinMeet = () => {
 			};
 
 			const { data } = await axios.get(
-				`${BASE_URL}/api/user/jitsi?name=${user.name}&email=${user.email}.com&id=${user._id}}`,
+				`${BASE_URL}/user/jitsi?name=${user.name}&email=${user.email}.com&id=${user._id}}`,
 				config
 			);
 
@@ -63,7 +62,6 @@ const JoinMeet = () => {
 	}, [])
 	return (
 		<>
-			<div>Meeting</div>
 			<JaaSMeeting
 				appId='vpaas-magic-cookie-b9f2d397120a469182119b0903dac4ac'
 				roomName={meetingRoomId.meetingId}

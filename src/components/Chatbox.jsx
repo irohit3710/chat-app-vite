@@ -4,7 +4,7 @@ import SingleChat from "./SingleChat";
 import { ChatState } from "../Context/ChatProvider";
 
 const Chatbox = ({ fetchAgain, setFetchAgain }) => {
-  const { selectedChat } = ChatState();
+  const { selectedChat, themeValue } = ChatState();
 
   return (
     <Box
@@ -12,7 +12,8 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
       alignItems="center"
       flexDir="column"
       p={3}
-      bg="orange.200"
+      // bg="orange.200"
+      bg={themeValue ? 'gray.700' :'orange.200'}
       w={{ base: "100%", md: "68%" }}
       borderRadius="lg"
       // borderWidth="1px"

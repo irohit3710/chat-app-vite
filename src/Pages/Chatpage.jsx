@@ -10,7 +10,7 @@ import { customStyles, handleJoyrideCallback, steps } from "../components/Helper
 
 const Chatpage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
-  const { user } = ChatState();
+  const { user,themeValue } = ChatState();
   const [run, setRun] = useState(true);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Chatpage = () => {
         disableOverlayClose = {true}
       />
       {user && <SideDrawer />}
-      <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px" bg='orange.300'>
+      <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px" bg={themeValue ? 'gray.900' : "orange.300"}>
         {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (
           <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />

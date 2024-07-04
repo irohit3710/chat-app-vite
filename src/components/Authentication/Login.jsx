@@ -66,7 +66,7 @@ const Login = () => {
             };
             // console.log(email, "and", password)
             const { data } = await axios.post(
-                `${BASE_URL}/api/user/login`,
+                `${BASE_URL}/user/login`,
                 { email, password },
                 config
             );

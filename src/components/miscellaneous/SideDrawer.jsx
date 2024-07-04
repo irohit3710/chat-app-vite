@@ -37,7 +37,7 @@ function SideDrawer() {
   const [meetingModal, setMeetingModal] = useState(false);
   const [joinMeetingId, setJoinMeetingId] = useState(undefined);
 
-  const { setSelectedChat, user, notification, setNotification, chats, setChats } = ChatState();
+  const { setSelectedChat, user, notification, setNotification, chats, setChats, themeValue, setThemeValue } = ChatState();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,7 +69,7 @@ function SideDrawer() {
         },
       };
 
-      const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${BASE_URL}/user?search=${search}`, config);
 
       setLoading(false);
       setSearchResult(data);
@@ -105,7 +105,7 @@ function SideDrawer() {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`${BASE_URL}/api/chat`, { userId }, config);
+      const { data } = await axios.post(`${BASE_URL}/chat`, { userId }, config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
@@ -137,6 +137,10 @@ function SideDrawer() {
     navigate(`/ex/meeting/${joinMeetingId}`);
   }
 
+  const themeChangeHandler = () =>{
+    setThemeValue(!themeValue);
+  }
+
 
   return (
     <>
@@ -148,27 +152,28 @@ function SideDrawer() {
         // w="100%"
         p="5px 10px 5px 10px"
         // borderWidth="5px"
-        bg='orange.300'
+        // bg='orange.300'
+        bg={themeValue ? 'gray.800' : "orange.300"}
         borderBottomRadius='md'
         marginBottom='5px'
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen} className='my-third-step'>
+          <Button variant="ghost" onClick={onOpen} className='my-third-step' bg={themeValue ? "whatsapp.500":"white"}>
             <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>
           </Button>
         </Tooltip>
-        <Box bg='gray.200' paddingX='12px' borderRadius='6px'>
-          <Text fontSize="2xl" fontFamily="Work sans" fontWeight='bold' bgGradient="linear(to-r, red, orange)" bgClip="text" >
-            ChitChatWeb
+        <Box paddingX='12px' borderRadius='6px'>
+          <Text fontSize="2xl"  fontWeight='bold' color={themeValue?'white':"blue.800"}>
+            <span>Connect</span>ify
           </Text>
         </Box>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <Box marginRight='5px'>
-            <Menu bg='orange.300' border>
-              <MenuButton as={Button} bg="orange.300" rightIcon={<HiUserGroup />}>
+            <Menu bg={themeValue? "whatsapp.500":"orange.300"} border>
+              <MenuButton as={Button} bg={themeValue? "whatsapp.500":"orange.300"} rightIcon={<HiUserGroup />}>
                 {/* <HiUserGroup/> */}
                 <Text>Meeting</Text>
               </MenuButton>
@@ -179,7 +184,7 @@ function SideDrawer() {
               </MenuList>
             </Menu>
           </Box>
-          <Button bg='transparent' className='my-seventh-step'><Diversity2 fontSize="medium" /></Button>
+          <Button bg={themeValue? "whatsapp.500":"orange.300"} className='my-seventh-step'><Diversity2 fontSize="medium" /></Button>
           <Menu className='my-fifth-step'>
             {/* <MenuList> */}
             {/* <MenuItem>
@@ -193,7 +198,7 @@ function SideDrawer() {
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color={themeValue? "white":"black"}/>
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
@@ -212,8 +217,8 @@ function SideDrawer() {
               ))}
             </MenuList>
           </Menu>
-          <Menu bg='orange.300' border>
-            <MenuButton as={Button} bg="orange.300" rightIcon={<ChevronDownIcon />}>
+          <Menu bg={themeValue? "whatsapp.500":"orange.300"} border>
+            <MenuButton as={Button} bg={themeValue? "whatsapp.500":"orange.300"} rightIcon={<ChevronDownIcon />}>
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -221,21 +226,23 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList bg={themeValue?'gray.700':'white'} color={themeValue?'white':'black'}>
               <ProfileModal UserData={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
+                <MenuItem _hover={{bg:themeValue ? 'gray.800':'gray.100'}} bg={themeValue?'gray.700':'white'} >My Profile</MenuItem>{" "}
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler} _hover={{bg:themeValue ? 'gray.800':'gray.100'}} bg={themeValue?'gray.700':'white'} >Logout</MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={themeChangeHandler} _hover={{bg:themeValue ? 'gray.800':'gray.100'}} bg={themeValue?'gray.700':'white'} >Change Theme</MenuItem>
             </MenuList>
           </Menu>
         </div>
       </Box>
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen} bg={themeValue?'gray.700':'white'}>
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
+        <DrawerContent bg={themeValue?'gray.700':'white'}>
+          <DrawerHeader borderBottomWidth="1px" color={themeValue?'white':'black'}>Search Users</DrawerHeader>
           <DrawerBody>
             <Box d="flex" pb={2}>
               <Input
@@ -243,6 +250,7 @@ function SideDrawer() {
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                color={themeValue?'white':'black'}
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>

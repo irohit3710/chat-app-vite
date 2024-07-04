@@ -21,7 +21,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const [renameloading, setRenameLoading] = useState(false);
   const toast = useToast();
 
-  const { selectedChat, setSelectedChat, user } = ChatState();
+  const { selectedChat, setSelectedChat, user, themeValue } = ChatState();
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -36,7 +36,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${BASE_URL}/user?search=${search}`, config);
       // console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -64,7 +64,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `${BASE_URL}/api/chat/rename`,
+        `${BASE_URL}/chat/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -122,7 +122,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `${BASE_URL}/api/chat/groupadd`,
+        `${BASE_URL}/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -167,7 +167,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `${BASE_URL}/api/chat/groupremove`,
+        `${BASE_URL}/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -200,17 +200,17 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent bg='orange.200'>
+        <ModalContent bg={themeValue ? 'gray.700' : 'orange.200'}>
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
             d="flex"
             justifyContent="center"
           >
-            {selectedChat.chatName}
+            <Text color={themeValue ? 'white':'black'}>{selectedChat.chatName}</Text>
           </ModalHeader>
 
-          <ModalCloseButton />
+          <ModalCloseButton color={themeValue ? 'white':'black'} />
           <ModalBody d="flex" flexDir="column" alignItems="center">
             {/* <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
               Group Admin :
@@ -231,15 +231,15 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             <Box w='100%' d='flex' flexDir='row' alignItems='center' justifyContent='space-between' marginBottom='2'>
               <Box d='flex' flexDir='column' alignItems='center'>
                 <Button backgroundColor='green.400' onClick={()=>{setOpenListModal(true)}} _hover={{backgroundColor:'green.500'}}><RiAdminFill /></Button>
-                <Text style={{ fontSize: '12px' }}>Admins</Text>
+                <Text color={themeValue ? 'white':'black'} style={{ fontSize: '12px' }}>Admins</Text>
               </Box>
               <Box d='flex' flexDir='column' alignItems='center'>
                 <Button backgroundColor='green.400' _hover={{backgroundColor:'green.500'}}><HiMiniUserGroup /></Button>
-                <p style={{ fontSize: '12px' }}>Users</p>
+                <Text color={themeValue ? 'white':'black'} style={{ fontSize: '12px' }}>Users</Text>
               </Box>
               <Box d='flex' flexDir='column' alignItems='center'>
                 <Button backgroundColor='green.400' _hover={{backgroundColor:'green.500'}}><IoMdSettings /></Button>
-                <p style={{ fontSize: '12px' }}>Setting</p>
+                <Text color={themeValue ? 'white':'black'} style={{ fontSize: '12px' }}>Setting</Text>
               </Box>
             </Box>
             <FormControl d="flex">

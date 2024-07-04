@@ -13,8 +13,8 @@ export const payNow = async ({ e, user }) => {
     console.log(user);
     const amount = '100';
     const userId = user._id || null;
-    const order = await axios.post(`${BASE_URL}/api/payment/checkout`, { amount,userId}, config)
-    const { data } = await axios.get(`${BASE_URL}/api/payment/get/key`, config);
+    const order = await axios.post(`${BASE_URL}/payment/checkout`, { amount,userId}, config)
+    const { data } = await axios.get(`${BASE_URL}/payment/get/key`, config);
     console.log("order : ", order);
     console.log("data : ", data);
     if(order.status!=200){
@@ -28,7 +28,7 @@ export const payNow = async ({ e, user }) => {
         description: "Buy premium",
         image: "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_640.png",
         order_id: `${order.data.orderId}`,
-        callback_url: `${BASE_URL}/api/payment/verify`,
+        callback_url: `${BASE_URL}/payment/verify`,
         prefill: {
             "name": `${user.name}`,
             "email": `${user.email}`,

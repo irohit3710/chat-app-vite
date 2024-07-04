@@ -12,6 +12,7 @@ import {
   Input,
   useToast,
   Box,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -29,7 +30,7 @@ const GroupChatModal = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const { user, chats, setChats } = ChatState();
+  const { user, chats, setChats, themeValue } = ChatState();
 
   const clearStates = ()=>{
     setGroupChatName("");
@@ -78,7 +79,7 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${BASE_URL}/user?search=${search}`, config);
       // console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -117,7 +118,7 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        `${BASE_URL}/api/chat/group`,
+        `${BASE_URL}/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
@@ -151,16 +152,16 @@ const GroupChatModal = ({ children }) => {
 
       <Modal onClose={clearStates} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent bg='orange.200'>
+        <ModalContent bg={themeValue ? 'gray.700' : 'orange.200'}>
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
             d="flex"
             justifyContent="center"
           >
-            Create Group Chat
+            <Text color={themeValue ? 'white' : 'black'}>Create Group Chat</Text>
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={themeValue ? 'white' :'black'} />
           <ModalBody d="flex" flexDir="column" alignItems="center">
             <FormControl>
               <Input
@@ -189,7 +190,7 @@ const GroupChatModal = ({ children }) => {
             </Box>
             {loading ? (
               // <ChatLoading />
-              <div>Loading...</div>
+              <div style={{color:themeValue?'white':'black'}}>Loading...</div>
             ) : (
               searchResult
                 ?.slice(0, 4)

@@ -12,6 +12,7 @@ import { ChatState } from "./Context/ChatProvider";
 import Meeting from "./components/Meeting/Meeting";
 import JoinMeet from "./components/Meeting/JoinMeet";
 import ThankYou from "./components/Meeting/ThankYou";
+import Test from "./components/VideoChat/Test";
 
 const PrivateRoute = ({children}) => {
   const {authenticated} = ChatState();
@@ -32,6 +33,7 @@ function App() {
         <Route path='/ne/meeting/:meetingId' element={<PrivateRoute><Meeting /></PrivateRoute>} />
         <Route path='/ex/meeting/:meetingId' element={<PrivateRoute><JoinMeet /></PrivateRoute>} />
         <Route path='/meeting/thank' element={<ThankYou />}/>
+        {/* <Route path='/video/test' element={<Test />}/> */}
         {/* <Route path='/' element={<Router/>}/> */}
       </Routes>
     </div>

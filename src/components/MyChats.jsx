@@ -8,12 +8,12 @@ import ChatLoading from "./ChatLoading.jsx";
 import GroupChatModal from "./miscellaneous/GroupChatModal.jsx";
 import { Avatar, Button, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider.jsx";
-import { BASE_URL } from '../Context/helper.jsx'
+import { BASE_URL, ENDPOINT } from '../Context/helper.jsx'
 import ProfileModal from "./miscellaneous/ProfileModal.jsx";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import io from "socket.io-client";
 
-const ENDPOINT = 'http://localhost:8000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+// const ENDPOINT = 'http://localhost:8000'; 
 var socket, selectedChatCompare;
 
 const MyChats = ({ fetchAgain }) => {

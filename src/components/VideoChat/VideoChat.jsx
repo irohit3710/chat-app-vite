@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
+import { ENDPOINT } from '../../Context/helper';
 
-const socket = io('http://localhost:8000');
+const socket = io(ENDPOINT);
 
 const VideoChat = ({ room }) => {
     const [peers, setPeers] = useState([]);

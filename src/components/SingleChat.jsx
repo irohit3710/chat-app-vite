@@ -11,13 +11,13 @@ import ProfileModal from "./miscellaneous/ProfileModal.jsx";
 import ScrollableChat from "./ScrollableChat.jsx";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-import { BASE_URL } from '../Context/helper.jsx'
+import { BASE_URL, ENDPOINT } from '../Context/helper.jsx'
 import Filter from 'bad-words'
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal.jsx";
 import { ChatState } from "../Context/ChatProvider.jsx";
-// const ENDPOINT = "https://chitchatbackend-6cjq.onrender.com"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
-const ENDPOINT = 'http://localhost:8000'; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+
+// const ENDPOINT = 'http://localhost:8000'; 
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {

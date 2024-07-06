@@ -204,7 +204,7 @@ const MyChats = ({ fetchAgain }) => {
                                             </Text>
                                         )}
                                     </Box>
-                                    <div>
+                                    {/* <div>
                                         <Menu>
                                             <MenuButton p={1} className='my-eighth-step'>
                                                 <MoreVertIcon fontSize="medium" m={1} />
@@ -214,7 +214,7 @@ const MyChats = ({ fetchAgain }) => {
                                                 <Button bg={themeValue ? 'blue.800':'blue.200'} _hover={{ backgroundColor: themeValue ? "blue.900":'orange', color: themeValue ? 'white':'black', transition: 'all 200ms ease' }}>Send Request</Button>
                                             </MenuList>
                                         </Menu>
-                                    </div>
+                                    </div> */}
                                     <Box flex='0.1' onClick={() => { handleProfileModelClick(chat) }} className="my-sixth-step">
                                         <ProfileModal UserData={userToShow}>
                                             <Avatar border='2px solid green' size='md' />

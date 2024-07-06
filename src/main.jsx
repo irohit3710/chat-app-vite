@@ -9,6 +9,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Notifications } from 'react-push-notification';
+import InternetConnection from "./components/InternetConnection/InternetConnection";
 
 
 Router
@@ -19,6 +20,7 @@ ReactDOM.render(
         <ChatProvider>
           <Notifications/>
           <App />
+          {/* <InternetConnection /> */}
         </ChatProvider>
       </BrowserRouter>
     </ChakraProvider>

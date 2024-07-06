@@ -57,9 +57,9 @@ function Homepage() {
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-                <Box>
+                {/* <Box>
                     <Link onClick={()=>{navigate('/forgotPassword')}}>Forgot Password</Link>
-                </Box>
+                </Box> */}
             </Box>
         </Container>
         </div>
